@@ -1,0 +1,38 @@
+{
+  "name": "opencollective-postinstall",
+  "version": "1.0.0",
+  "description": "Add OpenCollective as a dependency to prompt users to donate after npm install",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opencollective/opencollective-postinstall.git"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/opencollective",
+    "suggested_donation": {
+      "amount": 2,
+      "currency": "USD",
+      "interval": "monthly"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "./bin/opencollective-postinstall.js"
+  },
+  "bin": {
+    "opencollective-postinstall": "./bin/opencollective-postinstall.js"
+  },
+  "keywords": [
+    "opencollective", "donate", "donation", "fundoss", "npm"
+  ],
+  "author": "Xavier Damman <@xdamman>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opencollective/node-module/issues"
+  },
+  "homepage": "https://github.com/opencollective/node-module#readme",
+  "dependencies": {
+    "chalk": "^1.1.3"
+  }
+}
