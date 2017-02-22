@@ -21,7 +21,7 @@ In your `package.json`, add:
       ...
     }
 
-## Suggest a donation amount
+## Suggest a donation amount (optional)
 
 In the "collective" section of your `package.json`, add: 
 
@@ -30,7 +30,7 @@ In the "collective" section of your `package.json`, add:
       "collective": {
         "type": "opencollective",
         "url": "https://opencollective.com/yourcollective_slug", // e.g. https://opencollective.com/webpack
-	"suggested_donation": {
+        "suggested_donation": {
           "amount": 2,
           "currency": "USD", // must be same currency than your collective's default currency
           "interval": "monthly" // or "one-time" or "yearly"
