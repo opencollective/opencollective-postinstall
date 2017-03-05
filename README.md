@@ -16,7 +16,7 @@ In your `package.json`, add:
         "url": "https://opencollective.com/yourcollective_slug" // e.g. https://opencollective.com/webpack
       },
       "scripts": {
-        "postinstall": "./bin/opencollective-postinstall"
+        "postinstall": "./bin/opencollective-postinstall [--no-logo]" // if you pass --no-logo, we won't show the Open Collective logo
       },
       ...
     }

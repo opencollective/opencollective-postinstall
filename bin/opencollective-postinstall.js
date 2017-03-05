@@ -1,11 +1,9 @@
 #!/usr/bin/env node
+const SHOW_LOGO = (process.argv.indexOf('--no-logo') === -1);
 
 const fs = require('fs');
 const chalk = require('chalk');
 const { padding, print } = require('../lib/utils');
-const logofilepath = './src/assets/logo.txt';
-
-const logo = fs.readFileSync('./src/assets/logo.txt','utf8');
 const {
   npm_package_name,
   npm_package_collective_url,
@@ -61,13 +59,19 @@ function footer() {
   console.log("");
 }
 
-var lineReader = require('readline').createInterface({
-  input: require('fs').createReadStream(logofilepath)
-});
+if (SHOW_LOGO) {
+  const logofilepath = './src/assets/logo.txt';
+  const logo = fs.readFileSync('./src/assets/logo.txt','utf8');
+  var lineReader = require('readline').createInterface({
+    input: require('fs').createReadStream(logofilepath)
+  });
+  console.log("");
+  lineReader.on('line', function (line) {
+    print(line, { color: 'blue'} );
+  });
 
-console.log("");
-lineReader.on('line', function (line) {
-  print(line, { color: 'blue'} );
-});
-
-lineReader.on('close', footer);
+  lineReader.on('close', footer);
+}
+else {
+  footer();
+}
