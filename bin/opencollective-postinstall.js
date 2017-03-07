@@ -18,7 +18,7 @@ if (npm_lifecycle_event !== 'postinstall') {
   console.log(`e.g.:`);
   console.log(padding(4), `{`);
   console.log(padding(6), `"scripts": {`);
-  console.log(padding(8), `"postinstall": "./bin/opencollective-postinstall"`);
+  console.log(padding(8), `"postinstall": "./node_modules/.bin/opencollective-postinstall"`);
   console.log(padding(6), `}`);
   console.log(padding(4), `}`);
   return process.exit(0);
