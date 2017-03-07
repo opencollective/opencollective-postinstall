@@ -60,8 +60,7 @@ function footer() {
 }
 
 if (SHOW_LOGO) {
-  const logofilepath = './src/assets/logo.txt';
-  const logo = fs.readFileSync('./src/assets/logo.txt','utf8');
+  const logofilepath = __dirname + '/../src/assets/logo.txt';
   var lineReader = require('readline').createInterface({
     input: require('fs').createReadStream(logofilepath)
   });
