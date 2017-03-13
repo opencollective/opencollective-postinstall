@@ -16,12 +16,14 @@ In your `package.json`, add:
         "url": "https://opencollective.com/yourcollective_slug" // e.g. https://opencollective.com/webpack
       },
       "scripts": {
-        "postinstall": "./node_modules/.bin/opencollective-postinstall [--no-logo]" // if you pass --no-logo, we won't show the Open Collective logo
+        "postinstall": "./node_modules/.bin/opencollective-postinstall"
       },
       ...
     }
 
-## Suggest a donation amount (optional)
+## Options
+
+You can specify a suggested donation amount or a different URL to use for your logo in ascii.
 
 In the "collective" section of your `package.json`, add: 
 
@@ -30,6 +32,7 @@ In the "collective" section of your `package.json`, add:
       "collective": {
         "type": "opencollective",
         "url": "https://opencollective.com/yourcollective_slug", // e.g. https://opencollective.com/webpack
+        "logo": "https://opencollective.com/yourcollective_slug/logo.txt" // e.g. https://opencollective.com/webpack/logo.txt
         "suggested_donation": {
           "amount": 2,
           "currency": "USD", // must be same currency than your collective's default currency
@@ -37,6 +40,7 @@ In the "collective" section of your `package.json`, add:
         }
       }
     }
+
 
 ## Questions? Comments? Feedback?
 
