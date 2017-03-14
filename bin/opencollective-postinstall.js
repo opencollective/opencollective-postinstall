@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 const fs = require('fs');
-const { padding } = require('../lib/utils');
+const { debug, padding } = require('../lib/utils');
 const { fetchStats, fetchLogo } = require('../lib/fetchData');
 const { printLogo, printFooter, printStats } = require('../lib/print');
-const setup = require('../setup');
 
 const {
   npm_package_collective_url,
@@ -34,11 +33,9 @@ function init() {
     })
 }
 
-if (process.env.DEBUG) console.log("process.env", process.env);
+debug("process.env", process.env);
 
-if (!npm_package_collective_url) {
-  setup();
-} else if (npm_lifecycle_event !== 'postinstall') {
+if (npm_lifecycle_event !== 'postinstall') {
   console.error(`This script should be run as a postinstall script. Please add it to your package.json.`);
   console.log(`e.g.:`);
   console.log(padding(4), `{`);
@@ -47,6 +44,6 @@ if (!npm_package_collective_url) {
   console.log(padding(6), `}`);
   console.log(padding(4), `}`);
   return process.exit(0);
-} else {
+} else if (npm_package_collective_url) {
   init();
 }

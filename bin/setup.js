@@ -1,24 +1,36 @@
+#!/usr/bin/env node
 const fs = require('fs');
 const inquirer = require('inquirer');
-const { fetchLogo } = require('./lib/fetchData');
-const { printLogo } = require('./lib/print');
+const { fetchLogo } = require('../lib/fetchData');
+const { printLogo } = require('../lib/print');
+const { debug } = require('../lib/utils');
 
-const packageJSONFile = '../../package.json';
+const parentDir = process.cwd().split('/').slice(-2, -1)[0];
+if (parentDir !== 'node_modules') {
+  // No need to run the setup in standalone mode
+  debug("parent dir", parentDir);
+  debug("cwd", process.cwd());
+  process.exit(0);
+}
+
+const projectPackageJSON = '../../package.json';
 var package;
 try {
-  package = require(packageJSONFile);
+  package = JSON.parse(fs.readFileSync(projectPackageJSON, 'utf8'));
 } catch(e) {
-  if (process.env.DEBUG) console.error(`Unable to load ${process.cwd()}/${packageJSONFile}`);
+  debug(`Unable to load ${process.cwd()}/${projectPackageJSON}`, e);
+}
+if (!package) {
+  console.log("Cannot load the `package.json` of your project");
+  console.log("Please make sure `opencollective-postinstall` is within the `node_modules` directory of your project.")
+  console.log("");
+  process.exit(0);
+} else if(package.collective && package.collective.url) {
+  debug("Open Collective already configured 👌");
+  process.exit(0);
 }
 
 const askQuestions = function() {
-
-  if (!package) {
-    console.log("Cannot load the `package.json` of your project");
-    console.log("Please make sure `opencollective-postinstall` is within the `node_modules` directory of your project.")
-    console.log("");
-    return;
-  }
 
   const questions = [
     {
@@ -60,7 +72,7 @@ const askQuestions = function() {
   console.log("Let's fix this, shall we?");
   console.log("");
   inquirer.prompt(questions).then(answers => {
-    console.log(`Updating package.json...`);
+    console.log(`Updating ${projectPackageJSON}...`);
     package.collective = {
       type: "opencollective",
       url: `https://opencollective.com/${answers.collectiveSlug}`
@@ -68,6 +80,8 @@ const askQuestions = function() {
     const logo = answers.logo || answers.showLogo;
     if (logo) {
       package.collective.logo = logo;
+    } else {
+      delete package.collective.logo;
     }
     let postinstall = "./node_modules/.bin/opencollective-postinstall";
     if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
@@ -75,7 +89,7 @@ const askQuestions = function() {
     } else {
       package.scripts.postinstall = postinstall;
     }
-    fs.writeFileSync(packageJSONFile, JSON.stringify(package, null, 2), 'utf8');
+    fs.writeFileSync(projectPackageJSON, JSON.stringify(package, null, 2), 'utf8');
     console.log("Done.");
     console.log("");
     console.log("Protip: You can also suggest a donation amount.");
@@ -86,11 +100,7 @@ const askQuestions = function() {
   });
 }
 
-const setup = function() {
-  console.log("");
-  fetchLogo("https://opencollective.com/opencollective/logo.txt")
-    .then(printLogo)
-    .then(askQuestions);
-}
-
-module.exports = setup;
+console.log("");
+fetchLogo("https://opencollective.com/opencollective/logo.txt")
+  .then(printLogo)
+  .then(askQuestions);
