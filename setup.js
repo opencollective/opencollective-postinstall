@@ -4,6 +4,7 @@ const { fetchLogo } = require('./lib/fetchData');
 const { printLogo } = require('./lib/print');
 
 const packageJSONFile = '../../package.json';
+var package;
 try {
   const package = require(packageJSONFile);
 } catch(e) {
@@ -12,7 +13,7 @@ try {
 
 const askQuestions = function() {
 
-  if (typeof package === 'undefined') {
+  if (!package) {
     console.log("Cannot load the `package.json` of your project");
     console.log("Please make sure `opencollective-postinstall` is within the `node_modules` directory of your project.")
     console.log("");
