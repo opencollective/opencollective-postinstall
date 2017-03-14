@@ -6,26 +6,10 @@ const { printLogo, printFooter, printStats } = require('../lib/print');
 const setup = require('../setup');
 
 const {
-  npm_package_name,
   npm_package_collective_url,
   npm_package_collective_logo,
-  npm_package_collective_suggested_donation_amount,
-  npm_package_collective_suggested_donation_interval,
-  npm_lifecycle_event,
-  npm_config_user_agent
+  npm_lifecycle_event
 } = process.env;
-
-function getDonateURL() {
-  let donate_url = npm_package_collective_url;
-  if (npm_package_collective_suggested_donation_amount) {
-    donate_url += `/donate/${npm_package_collective_suggested_donation_amount}`;
-    if (npm_package_collective_suggested_donation_interval) {
-      donate_url += `/${npm_package_collective_suggested_donation_interval}`;
-    }
-    donate_url += (npm_config_user_agent.match(/yarn/)) ? '/yarn' : '/npm';
-  }
-  return donate_url;
-}
 
 function init() {
   const promises = [];
@@ -62,6 +46,5 @@ if (!npm_package_collective_url) {
   console.log(padding(4), `}`);
   return process.exit(0);
 } else {
-  console.log("init");
   init();
 }

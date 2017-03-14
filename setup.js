@@ -57,7 +57,7 @@ const askQuestions = function() {
       package.collective.logo = logo;
     }
     let postinstall = "./node_modules/.bin/opencollective-postinstall";
-    if (package.scripts.postinstall) {
+    if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
       package.scripts.postinstall = `${package.scripts.postinstall} && ${postinstall}`;
     } else {
       package.scripts.postinstall = postinstall;
