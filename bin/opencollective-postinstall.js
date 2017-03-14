@@ -34,6 +34,8 @@ function init() {
     })
 }
 
+if (process.env.DEBUG) console.log("process.env", process.env);
+
 if (!npm_package_collective_url) {
   setup();
 } else if (npm_lifecycle_event !== 'postinstall') {

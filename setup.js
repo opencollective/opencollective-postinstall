@@ -1,9 +1,10 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const packageJSONFile = `${process.cwd()}/package.json`;
-const package = require(packageJSONFile);
+const { loadMainPackageJSON } = require('./lib/utils');
 const { fetchLogo } = require('./lib/fetchData');
 const { printLogo } = require('./lib/print');
+
+const package = loadMainPackageJSON();
 
 var questions = [
   {
@@ -25,8 +26,7 @@ var questions = [
       { name: `The logo of your Collective (https://opencollective.com/${answers.collectiveSlug}/logo.txt)`, value: `https://opencollective.com/${answers.collectiveSlug}/logo.txt` },
       { name: 'Custom URL', value: 'custom'},
       { name: 'No logo', value: null }
-    ],
-    default: true
+    ]
   },
   {
     type: 'input',
