@@ -1,47 +1,59 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const { loadMainPackageJSON } = require('./lib/utils');
 const { fetchLogo } = require('./lib/fetchData');
 const { printLogo } = require('./lib/print');
 
-const package = loadMainPackageJSON();
-
-var questions = [
-  {
-    type: 'input',
-    name: 'collectiveSlug',
-    message: 'Enter the slug of your collective (https://opencollective.com/:slug)',
-    default: package.name,
-    validate: (str) => {
-      if(str.match(/^[a-zA-Z\-0-9]+$/)) return true;
-      else return 'Please enter a valid slug (e.g. https://opencollective.com/webpack)';
-    }
-  },
-  {
-    type: 'list',
-    name: 'showLogo',
-    message: 'What logo should we use?',
-    choices: (answers) => [
-      { name: 'Open Collective logo (see above)', value: `https://opencollective.com/opencollective/logo.txt` },
-      { name: `The logo of your Collective (https://opencollective.com/${answers.collectiveSlug}/logo.txt)`, value: `https://opencollective.com/${answers.collectiveSlug}/logo.txt` },
-      { name: 'Custom URL', value: 'custom'},
-      { name: 'No logo', value: null }
-    ]
-  },
-  {
-    type: 'input',
-    name: 'logo',
-    message: 'URL of your logo in ASCII art',
-    default: (answers) => `https://opencollective.com/${answers.collectiveSlug}/logo.txt`,
-    validate: (str) => {
-      if(str.match(/^https?:\/\/[^\/]+\/.+$/)) return true;
-      else return 'Please enter a valid url (e.g. https://opencollective.com/webpack/logo.txt)';
-    },
-    when: (answers) => answers.showLogo === 'custom'
-  }
-];
+const packageJSONFile = '../../package.json';
+try {
+  const package = require(packageJSONFile);
+} catch(e) {
+  if (process.env.DEBUG) console.error(`Unable to load ${process.cwd()}/${packageJSONFile}`);
+}
 
 const askQuestions = function() {
+
+  if (typeof package === 'undefined') {
+    console.log("Cannot load the `package.json` of your project");
+    console.log("Please make sure `opencollective-postinstall` is within the `node_modules` directory of your project.")
+    console.log("");
+    return;
+  }
+
+  const questions = [
+    {
+      type: 'input',
+      name: 'collectiveSlug',
+      message: 'Enter the slug of your collective (https://opencollective.com/:slug)',
+      default: package.name,
+      validate: (str) => {
+        if(str.match(/^[a-zA-Z\-0-9]+$/)) return true;
+        else return 'Please enter a valid slug (e.g. https://opencollective.com/webpack)';
+      }
+    },
+    {
+      type: 'list',
+      name: 'showLogo',
+      message: 'What logo should we use?',
+      choices: (answers) => [
+        { name: 'Open Collective logo (see above)', value: `https://opencollective.com/opencollective/logo.txt` },
+        { name: `The logo of your Collective (https://opencollective.com/${answers.collectiveSlug}/logo.txt)`, value: `https://opencollective.com/${answers.collectiveSlug}/logo.txt` },
+        { name: 'Custom URL', value: 'custom'},
+        { name: 'No logo', value: null }
+      ]
+    },
+    {
+      type: 'input',
+      name: 'logo',
+      message: 'URL of your logo in ASCII art',
+      default: (answers) => `https://opencollective.com/${answers.collectiveSlug}/logo.txt`,
+      validate: (str) => {
+        if(str.match(/^https?:\/\/[^\/]+\/.+$/)) return true;
+        else return 'Please enter a valid url (e.g. https://opencollective.com/webpack/logo.txt)';
+      },
+      when: (answers) => answers.showLogo === 'custom'
+    }
+  ];
+
   console.log("");
   console.log("You don't have any collective set in your package.json");
   console.log("Let's fix this, shall we?");
