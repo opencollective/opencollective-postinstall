@@ -6,7 +6,7 @@ const { printLogo } = require('./lib/print');
 const packageJSONFile = '../../package.json';
 var package;
 try {
-  const package = require(packageJSONFile);
+  package = require(packageJSONFile);
 } catch(e) {
   if (process.env.DEBUG) console.error(`Unable to load ${process.cwd()}/${packageJSONFile}`);
 }
