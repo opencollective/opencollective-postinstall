@@ -1,20 +1,26 @@
 #!/usr/bin/env node
 const fs = require('fs');
-const { debug, padding } = require('../lib/utils');
-const { fetchStats, fetchLogo } = require('../lib/fetchData');
-const { printLogo, printFooter, printStats } = require('../lib/print');
+const utils = require('../lib/utils');
+const fetchData = require('../lib/fetchData');
+const print = require('../lib/print');
 
-const {
-  npm_package_collective_url,
-  npm_package_collective_logo,
-  npm_lifecycle_event
-} = process.env;
+const debug = utils.debug;
+const padding = utils.padding;
+const fetchStats = fetchData.fetchStats;
+const fetchLogo = fetchData.fetchLogo;
+const printLogo = print.printLogo;
+const printFooter = print.printFooter;
+const printStats = print.printStats;
+
+const collective_url = process.env.npm_package_collective_url;
+const collective_logo = process.env.npm_package_collective_logo;
+const lifecycle_event = process.env.npm_lifecycle_event;
 
 function init() {
   const promises = [];
-  promises.push(fetchStats(npm_package_collective_url));
-  if (npm_package_collective_logo) {
-    promises.push(fetchLogo(npm_package_collective_logo));
+  promises.push(fetchStats(collective_url));
+  if (collective_logo) {
+    promises.push(fetchLogo(collective_logo));
   }
 
   Promise.all(promises)
@@ -35,7 +41,7 @@ function init() {
 
 debug("process.env", process.env);
 
-if (npm_lifecycle_event !== 'postinstall') {
+if (lifecycle_event !== 'postinstall') {
   console.error(`This script should be run as a postinstall script. Please add it to your package.json.`);
   console.log(`e.g.:`);
   console.log(padding(4), `{`);
@@ -44,6 +50,6 @@ if (npm_lifecycle_event !== 'postinstall') {
   console.log(padding(6), `}`);
   console.log(padding(4), `}`);
   return process.exit(0);
-} else if (npm_package_collective_url) {
+} else if (collective_url) {
   init();
 }

@@ -7,9 +7,13 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'dev' && process.env.NODE_E
 
 const fs = require('fs');
 const inquirer = require('inquirer');
-const { fetchLogo } = require('../lib/fetchData');
-const { printLogo } = require('../lib/print');
-const { debug } = require('../lib/utils');
+const fetchData = require('../lib/fetchData');
+const print = require('../lib/print');
+const utils = require('../lib/utils');
+
+const fetchLogo = fetchData.fetchLogo;
+const printLogo = print.printLogo;
+const debug = utils.debug;
 
 const parentDir = process.cwd().split('/').slice(-2, -1)[0];
 if (parentDir !== 'node_modules') {
@@ -89,7 +93,7 @@ const askQuestions = function() {
     } else {
       delete package.collective.logo;
     }
-    let postinstall = "./node_modules/.bin/opencollective-postinstall || exit 0";
+    var postinstall = "./node_modules/.bin/opencollective-postinstall || exit 0";
     if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
       package.scripts.postinstall = `${package.scripts.postinstall} && ${postinstall}`;
     } else {
