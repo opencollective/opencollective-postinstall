@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+
+// Only run in development environment
+if (process.env.NODE_ENV && process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development') {
+  process.exit(0);
+}
+
 const fs = require('fs');
 const inquirer = require('inquirer');
 const { fetchLogo } = require('../lib/fetchData');
@@ -83,7 +89,7 @@ const askQuestions = function() {
     } else {
       delete package.collective.logo;
     }
-    let postinstall = "./node_modules/.bin/opencollective-postinstall";
+    let postinstall = "./node_modules/.bin/opencollective-postinstall || exit 0";
     if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
       package.scripts.postinstall = `${package.scripts.postinstall} && ${postinstall}`;
     } else {

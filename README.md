@@ -5,13 +5,14 @@ Prompt your users to donate to your collective after `npm install`
 
 ## Install
 
-    npm install opencollective-postinstall --save
+    npm install opencollective-postinstall --save-dev
 
 This will run an interactive cli to configure your package.json
+Note: because you are adding this in your `devDependencies`, it will only be installed in development enviromnent.
 
 ![](https://cl.ly/2k0G1C461A09/Screen%20Shot%202017-03-14%20at%2010.53.36%20AM.png)
 
-In your `package.json`, add:
+In your `package.json`, it will add a new `"collective"` attribute and update the postinstall script.
 
     {
       ...
@@ -21,10 +22,13 @@ In your `package.json`, add:
         "logo": "https://opencollective.com/webpack/logo.txt?variant=wide&width=26"
       },
       "scripts": {
-        "postinstall": "./node_modules/.bin/opencollective-postinstall"
+        "postinstall": "./node_modules/.bin/opencollective-postinstall || exit 0"
       },
       ...
     }
+
+**Why `|| exit 0` in `scripts.postinstall`?**<br />
+Since we are adding the dependency in `devDependencies`, the script `./node_modules/.bin/opencollective-postinstall` won't be installed in production. Therefore, the `postinstall` script will return an error and will interrupt the `npm install` process. Adding `|| exit 0` makes sure that this `postinstall` script always returns true.
 
 ## Options
 
