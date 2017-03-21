@@ -4,6 +4,13 @@
 if (process.env.NODE_ENV && process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development') {
   process.exit(0);
 }
+// In some CI environment, NODE_ENV might not be defined.
+// We exit if `inquirer` module is not installed
+try {
+  require.resolve("inquirer");
+} catch(e) {
+  process.exit(0);
+}
 
 const fs = require('fs');
 const inquirer = require('inquirer');
