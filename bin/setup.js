@@ -9,6 +9,12 @@ if (process.env.NODE_ENV && process.env.NODE_ENV !== 'dev' && process.env.NODE_E
 try {
   require.resolve("inquirer");
 } catch(e) {
+  debug("Can't find inquirer module, exiting");
+  process.exit(0);
+}
+
+if (typeof inquirer.prompt().then !== 'function') {
+  debug("Wrong version of inquirer, exiting");
   process.exit(0);
 }
 
@@ -25,8 +31,8 @@ const debug = utils.debug;
 const parentDir = process.cwd().split('/').slice(-2, -1)[0];
 if (parentDir !== 'node_modules') {
   // No need to run the setup in standalone mode
-  debug("parent dir", parentDir);
-  debug("cwd", process.cwd());
+  debug(`Parent dir (${parentDir}) is not "node_modules", exiting`);
+  debug("Current dir (cwd):", process.cwd());
   process.exit(0);
 }
 
@@ -34,6 +40,7 @@ const projectPackageJSON = '../../package.json';
 var package;
 try {
   package = JSON.parse(fs.readFileSync(projectPackageJSON, 'utf8'));
+  debug(`package.json successfully loaded for ${package.name}`);
 } catch(e) {
   debug(`Unable to load ${process.cwd()}/${projectPackageJSON}`, e);
 }
@@ -114,10 +121,18 @@ const askQuestions = function() {
     console.log("");
     console.log("Have a great day!");
     return process.exit(0);
+  })
+  .catch(e => {
+    debug("Error while running the prompt", e);
+    process.exit(0);
   });
 }
 
 console.log("");
 fetchLogo("https://opencollective.com/opencollective/logo.txt")
   .then(printLogo)
-  .then(askQuestions);
+  .then(askQuestions)
+  .catch(e => {
+    debug("Error while trying to fetch the open collective logo or running the prompt", e);
+    process.exit(0)
+  });

@@ -1,6 +1,9 @@
 # opencollective-postinstall
 Prompt your users to donate to your collective after `npm install`
 
+![](https://cl.ly/0u2a0z0Y3X37/Screen%20Shot%202017-03-24%20at%202.37.46%20PM.png)
+
+You can also add your ASCII art logo:
 ![](https://cl.ly/3u182e3B0323/Screen%20Shot%202017-03-14%20at%2010.51.21%20AM.png)
 
 ## Install
