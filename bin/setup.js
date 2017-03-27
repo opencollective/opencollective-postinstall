@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 
+const utils = require('../lib/utils');
+const debug = utils.debug;
+
 // Only run in development environment
 if (process.env.NODE_ENV && process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development') {
+  debug("Wrong environment", process.env.NODE_ENV);
   process.exit(0);
 }
+
 // In some CI environment, NODE_ENV might not be defined.
 // We exit if `inquirer` module is not installed
 try {
@@ -13,20 +18,18 @@ try {
   process.exit(0);
 }
 
-if (typeof inquirer.prompt().then !== 'function') {
+const inquirer = require('inquirer');
+if (typeof inquirer.prompt([]).then !== 'function') {
   debug("Wrong version of inquirer, exiting");
   process.exit(0);
 }
 
 const fs = require('fs');
-const inquirer = require('inquirer');
 const fetchData = require('../lib/fetchData');
 const print = require('../lib/print');
-const utils = require('../lib/utils');
 
 const fetchLogo = fetchData.fetchLogo;
 const printLogo = print.printLogo;
-const debug = utils.debug;
 
 const parentDir = process.cwd().split('/').slice(-2, -1)[0];
 if (parentDir !== 'node_modules') {
