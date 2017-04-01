@@ -135,7 +135,7 @@ const updateREADME = function(collectiveSlug) {
   const badgeshtml = `<a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/${collectiveSlug}/backers/badge.svg" /></a>
 <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/${collectiveSlug}/sponsors/badge.svg" /></a>`;
 
-  let readme;
+  var readme;
   try {
     readme = fs.readFileSync(projectREADME, 'utf8');
 
@@ -147,7 +147,7 @@ const updateREADME = function(collectiveSlug) {
     const lines = readme.split('\n');
     const newLines = [];
 
-    let firstBadgeDetected = false;
+    var firstBadgeDetected = false;
     lines.forEach(line => {
       if (!firstBadgeDetected && (line.match(/badge.svg/) || line.match(/img.shields.io/))) {
         firstBadgeDetected = true;
