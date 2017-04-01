@@ -1,6 +1,6 @@
 {
   "name": "opencollective-postinstall",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Prompt users to donate after they install your node module with npm install",
   "main": "index.js",
   "repository": {
