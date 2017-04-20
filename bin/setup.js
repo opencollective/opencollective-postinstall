@@ -23,6 +23,7 @@ if (typeof inquirer.prompt([]).then !== 'function') {
 }
 
 const fs = require('fs');
+const path = require('path');
 const fetchData = require('../lib/fetchData');
 const print = require('../lib/print');
 
@@ -38,8 +39,8 @@ if (parentDir !== 'node_modules') {
   process.exit(0);
 }
 
-const projectPackageJSON = '../../package.json';
-const projectREADME = '../../README.md';
+const projectPackageJSON = path.normalize('../../package.json');
+const projectREADME = path.normalize('../../README.md');
 
 var package;
 try {
@@ -117,7 +118,7 @@ const ProcessAnswers = function(answers) {
   } else {
     delete package.collective.logo;
   }
-  var postinstall = "./node_modules/.bin/opencollective-postinstall || exit";
+  var postinstall = "node node_modules/.bin/opencollective-postinstall || exit";
   package.scripts = package.scripts || {};
   if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
     package.scripts.postinstall = `${package.scripts.postinstall} && ${postinstall}`;

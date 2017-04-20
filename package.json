@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "./bin/setup.js"
+    "postinstall": "node bin/setup.js"
   },
   "bin": {
     "opencollective-postinstall": "./bin/opencollective-postinstall.js"
