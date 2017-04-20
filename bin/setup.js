@@ -1,13 +1,11 @@
 #!/usr/bin/env node
-
 const utils = require('../lib/utils');
-const debug = utils.debug;
-
-// Only run in development environment
-if (process.env.NODE_ENV && process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development') {
-  debug("Wrong environment", process.env.NODE_ENV);
+if (!utils.isDevEnvironment()) {
   process.exit(0);
 }
+
+const debug = utils.debug;
+
 
 // In some CI environment, NODE_ENV might not be defined.
 // We exit if `inquirer` module is not installed
@@ -119,7 +117,8 @@ const ProcessAnswers = function(answers) {
   } else {
     delete package.collective.logo;
   }
-  var postinstall = "./node_modules/.bin/opencollective-postinstall || exit 0";
+  var postinstall = "./node_modules/.bin/opencollective-postinstall || exit";
+  package.scripts = package.scripts || {};
   if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
     package.scripts.postinstall = `${package.scripts.postinstall} && ${postinstall}`;
   } else {

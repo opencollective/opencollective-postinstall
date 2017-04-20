@@ -1,20 +1,39 @@
 #!/usr/bin/env node
-const fs = require('fs');
+const collective_url = process.env.npm_package_collective_url;
+const collective_logo = process.env.npm_package_collective_logo;
+const lifecycle_event = process.env.npm_lifecycle_event;
+
 const utils = require('../lib/utils');
+
+/**
+ * If we are not on a fancy TTY, just show a barebone message
+ * without fancy emoji, centering, fetching data, etc.
+ */
+if(!utils.isFancyEnvironment()) {
+  console.log("");
+  console.log(`     *** Thank you for using ${process.env.npm_package_name}! ***`);
+  console.log("");
+  console.log(`Please consider donating to our open collective`);
+  console.log(`     to help us maintain this package.`);
+  console.log("");
+  console.log(`   ${collective_url}/donate`);
+  console.log("");
+  console.log(`                    ***`);
+  console.log("");
+  process.exit(0);
+}
+
+const debug = utils.debug;
+const fs = require('fs');
 const fetchData = require('../lib/fetchData');
 const print = require('../lib/print');
 
-const debug = utils.debug;
 const padding = utils.padding;
 const fetchStats = fetchData.fetchStats;
 const fetchLogo = fetchData.fetchLogo;
 const printLogo = print.printLogo;
 const printFooter = print.printFooter;
 const printStats = print.printStats;
-
-const collective_url = process.env.npm_package_collective_url;
-const collective_logo = process.env.npm_package_collective_logo;
-const lifecycle_event = process.env.npm_lifecycle_event;
 
 function init() {
   const promises = [];
