@@ -12,7 +12,7 @@
     "postinstall": "node bin/setup.js"
   },
   "bin": {
-    "opencollective-postinstall": "./bin/opencollective-postinstall.js"
+    "opencollective-postinstall": "./bin/opencollective-postinstall"
   },
   "keywords": [
     "opencollective",
