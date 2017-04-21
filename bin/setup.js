@@ -74,7 +74,7 @@ const askQuestions = function() {
       name: "collectiveSlug",
       message: "Enter the slug of your collective (https://opencollective.com/:slug)",
       default: package.name,
-      validate: (str) => {
+      validate: function(str) {
         if(str.match(/^[a-zA-Z\-0-9]+$/)) return true;
         else return "Please enter a valid slug (e.g. https://opencollective.com/webpack)";
       }
@@ -83,23 +83,29 @@ const askQuestions = function() {
       type: "list",
       name: "showLogo",
       message: "What logo should we use?",
-      choices: (answers) => [
-        { name: "Open Collective logo (see above)", value: "https://opencollective.com/opencollective/logo.txt" },
-        { name: "The logo of your Collective (https://opencollective.com/" + answers.collectiveSlug + "/logo.txt)", value: "https://opencollective.com/" + answers.collectiveSlug + "/logo.txt" },
-        { name: "Custom URL", value: "custom"},
-        { name: "No logo", value: null }
-      ]
+      choices: function(answers) {
+        return [
+          { name: "Open Collective logo (see above)", value: "https://opencollective.com/opencollective/logo.txt" },
+          { name: "The logo of your Collective (https://opencollective.com/" + answers.collectiveSlug + "/logo.txt)", value: "https://opencollective.com/" + answers.collectiveSlug + "/logo.txt" },
+          { name: "Custom URL", value: "custom"},
+          { name: "No logo", value: null }
+        ];
+      }
     },
     {
       type: "input",
       name: "logo",
       message: "URL of your logo in ASCII art",
-      default: (answers) => "https://opencollective.com/" + answers.collectiveSlug + "/logo.txt",
-      validate: (str) => {
+      default: function(answers) {
+        "https://opencollective.com/" + answers.collectiveSlug + "/logo.txt"
+      },
+      validate: function(str) {
         if(str.match(/^https?:\/\/[^\/]+\/.+$/)) return true;
         else return "Please enter a valid url (e.g. https://opencollective.com/webpack/logo.txt)";
       },
-      when: (answers) => answers.showLogo === "custom"
+      when: function(answers) {
+        return (answers.showLogo === "custom");
+      }
     }
   ];
 
@@ -107,7 +113,7 @@ const askQuestions = function() {
   console.log("You don't have any collective set in your package.json");
   console.log("Let's fix this, shall we?");
   console.log("");
-  return inquirer.prompt(questions).catch(e => {
+  return inquirer.prompt(questions).catch(function(e) {
     debug("Error while running the prompt", e);
     process.exit(0);
   });
@@ -153,7 +159,7 @@ const updateREADME = function(collectiveSlug) {
     const newLines = [];
 
     var firstBadgeDetected = false;
-    lines.forEach(line => {
+    lines.forEach(function(line) {
       if (!firstBadgeDetected && (line.match(/badge.svg/) || line.match(/img.shields.io/))) {
         firstBadgeDetected = true;
         newLines.push(line.match(/<img src/) ? badgeshtml : badgesmd);
@@ -161,7 +167,7 @@ const updateREADME = function(collectiveSlug) {
       newLines.push(line);
     })
 
-    return fetchBanner(collectiveSlug).then((banner) => {
+    return fetchBanner(collectiveSlug).then(function(banner) {
       newLines.push(banner);
       console.log("> Adding badges and placeholders for backers and sponsors on your README.md");
       return fs.writeFileSync(projectREADME, newLines.join("\n"), "utf8");
@@ -177,7 +183,7 @@ fetchLogo("https://opencollective.com/opencollective/logo.txt")
   .then(printLogo)
   .then(askQuestions)
   .then(ProcessAnswers)
-  .then(() => {
+  .then(function() {
     console.log("Done.");
     console.log("");
     console.log("Please double check your new updated README.md to make sure everything looks 👌.");
@@ -188,7 +194,7 @@ fetchLogo("https://opencollective.com/opencollective/logo.txt")
     console.log("Have a great day!");
     return process.exit(0);
   })
-  .catch(e => {
+  .catch(function(e) {
     debug("Error while trying to fetch the open collective logo or running the prompt", e);
     process.exit(0)
   });
