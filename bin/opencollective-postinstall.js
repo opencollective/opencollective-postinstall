@@ -3,7 +3,7 @@ const collective_url = process.env.npm_package_collective_url;
 const collective_logo = process.env.npm_package_collective_logo;
 const lifecycle_event = process.env.npm_lifecycle_event;
 
-const utils = require('../lib/utils');
+const utils = require("../lib/utils");
 
 /**
  * If we are not on a fancy TTY, just show a barebone message
@@ -11,22 +11,22 @@ const utils = require('../lib/utils');
  */
 if(!utils.isFancyEnvironment()) {
   console.log("");
-  console.log(`     *** Thank you for using ${process.env.npm_package_name}! ***`);
+  console.log("     *** Thank you for using " + process.env.npm_package_name + "! ***");
   console.log("");
-  console.log(`Please consider donating to our open collective`);
-  console.log(`     to help us maintain this package.`);
+  console.log("lease consider donating to our open collective");
+  console.log("     to help us maintain this package.");
   console.log("");
-  console.log(`   ${collective_url}/donate`);
+  console.log("  " + collective_url + "/donate");
   console.log("");
-  console.log(`                    ***`);
+  console.log("                    ***");
   console.log("");
   process.exit(0);
 }
 
 const debug = utils.debug;
-const fs = require('fs');
-const fetchData = require('../lib/fetchData');
-const print = require('../lib/print');
+const fs = require("fs");
+const fetchData = require("../lib/fetchData");
+const print = require("../lib/print");
 
 const padding = utils.padding;
 const fetchStats = fetchData.fetchStats;
@@ -60,14 +60,14 @@ function init() {
 
 debug("process.env", process.env);
 
-if (lifecycle_event !== 'postinstall') {
-  console.error(`This script should be run as a postinstall script. Please add it to your package.json.`);
-  console.log(`e.g.:`);
-  console.log(padding(4), `{`);
-  console.log(padding(6), `"scripts": {`);
-  console.log(padding(8), `"postinstall": "./node_modules/.bin/opencollective-postinstall"`);
-  console.log(padding(6), `}`);
-  console.log(padding(4), `}`);
+if (lifecycle_event !== "postinstall") {
+  console.error("This script should be run as a postinstall script. Please add it to your package.json.");
+  console.log("e.g.:");
+  console.log(padding(4), "{");
+  console.log(padding(6), "\"scripts\": {");
+  console.log(padding(8), "\"postinstall\": \"./node_modules/.bin/opencollective-postinstall\"");
+  console.log(padding(6), "}");
+  console.log(padding(4), "}");
   return process.exit(0);
 } else if (collective_url) {
   init();
