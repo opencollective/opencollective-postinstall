@@ -31,7 +31,7 @@ const fetchLogo = fetchData.fetchLogo;
 const fetchBanner = fetchData.fetchBanner;
 const printLogo = print.printLogo;
 
-const parentDir = process.cwd().split("/").slice(-2, -1)[0];
+const parentDir = process.cwd().split(process.platform === 'win32' ? "\\" : "/").slice(-2, -1)[0];
 if (parentDir !== "node_modules") {
   // No need to run the setup in standalone mode
   debug("Parent dir (" + parentDir + ") is not \"node_modules\", exiting");
