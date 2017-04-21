@@ -32,6 +32,8 @@ describe("setup.test.js", () => {
   it("run setup and add postinstall script and collective info to package.json", function(done) {
     this.timeout(10000);
     const proc = execSync("cross-env OC_POSTINSTALL_TEST=true DEBUG=postinstall npm install --save-dev " + path.resolve(__dirname, "../"), { cwd: paths.package });
+    const stdout = proc.toString('utf8');
+    console.log("stdout:", stdout);
     const package = JSON.parse(fs.readFileSync(paths.packagejson, 'utf8'));
     console.log("package.json > ", package);
     expect(package.collective).to.exist;

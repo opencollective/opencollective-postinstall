@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 const utils = require("../lib/utils");
-if (!utils.isDevEnvironment()) {
-  process.exit(0);
-}
-
 const debug = utils.debug;
 
+if (!utils.isDevEnvironment()) {
+  debug("Not in dev environment");
+  process.exit(0);
+}
 
 // In some CI environment, NODE_ENV might not be defined.
 // We exit if `inquirer` module is not installed
