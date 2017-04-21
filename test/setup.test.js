@@ -32,7 +32,6 @@ describe("setup.test.js", function() {
   it("run setup and add postinstall script and collective info to package.json", function(done) {
     this.timeout(10000);
     const proc = execSync("cross-env OC_POSTINSTALL_TEST=true npm install --save " + path.resolve(__dirname, "../"), { cwd: paths.package });
-    // const setup = execSync("cross-env OC_POSTINSTALL_TEST=true npm run setup", { cwd: paths.postinstallpackage });
     const package = JSON.parse(fs.readFileSync(paths.packagejson, 'utf8'));
     expect(package.collective).to.exist;
     expect(package.scripts.postinstall).to.equal("opencollective-postinstall || exit 0");
