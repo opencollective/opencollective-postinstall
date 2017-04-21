@@ -34,7 +34,7 @@ describe("setup.test.js", () => {
     const proc = execSync("cross-env OC_POSTINSTALL_TEST=true npm install --save-dev " + path.resolve(__dirname, "../"), { cwd: paths.package });
     const package = JSON.parse(fs.readFileSync(paths.packagejson, 'utf8'));
     expect(package.collective).to.exist;
-    expect(package.scripts.postinstall).to.equal("opencollectivepostinstall || exit 0");
+    expect(package.scripts.postinstall).to.equal("opencollective-postinstall || exit 0");
     expect(package.collective.type).to.equal("opencollective");
     expect(package.collective.url).to.equal("https://opencollective.com/testpackage");
     expect(package.collective.logo).to.equal("https://opencollective.com/opencollective/logo.txt");
@@ -43,14 +43,17 @@ describe("setup.test.js", () => {
   })
 
   it("runs the postinstall script after npm install", function(done) {
+    console.log(">>> cd " + paths.package + "; npm install");
     const proc = execSync("npm install", { cwd: paths.package });
     const stdout = proc.toString('utf8');
+    console.log("stdout:", stdout);
     expect(stdout).to.contain("*** Thank you for using testpackage! ***");
     expect(stdout).to.contain("https://opencollective.com/testpackage/donate");
     done();
   });
 
   it("installs a package that has opencollective-postinstall", function(done) {
+    console.log(">>> cd " + paths.parentpackage + "; npm install --save " + path.resolve(__dirname, "package"));
     const proc = execSync("cross-env DEBUG=postinstall npm install --save " + path.resolve(__dirname, "package"), { cwd: paths.parentpackage });
     const stdout = proc.toString('utf8');
     console.log("stdout:", stdout);
