@@ -23,7 +23,7 @@ describe("setup.test.js", () => {
 
   it("doesn't run setup if not in development environment", function(done) {
     this.timeout(10000);
-    const proc = execSync("NODE_ENV=production npm install " + path.resolve(__dirname, "../"), { cwd: paths.package });
+    const proc = execSync("cross-env NODE_ENV=production npm install " + path.resolve(__dirname, "../"), { cwd: paths.package });
     const package = JSON.parse(fs.readFileSync(paths.packagejson, 'utf8'));
     expect(package.collective).to.not.exist;
     done();
@@ -31,7 +31,7 @@ describe("setup.test.js", () => {
 
   it("run setup and add postinstall script and collective info to package.json", function(done) {
     this.timeout(10000);
-    const proc = execSync("OC_POSTINSTALL_TEST=true npm install --save-dev " + path.resolve(__dirname, "../"), { cwd: paths.package });
+    const proc = execSync("cross-env OC_POSTINSTALL_TEST=true npm install --save-dev " + path.resolve(__dirname, "../"), { cwd: paths.package });
     const package = JSON.parse(fs.readFileSync(paths.packagejson, 'utf8'));
     expect(package.collective).to.exist;
     expect(package.scripts.postinstall).to.equal("opencollective-postinstall || exit 0");
