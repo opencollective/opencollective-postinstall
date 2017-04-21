@@ -13,10 +13,10 @@ const paths = {
 const originalPackageJSON = fs.readFileSync(paths.packagejson, 'utf8');
 const originalParentPackageJSON = fs.readFileSync(paths.parentpackagejson, 'utf8');
 
-describe("setup.test.js", () => {
+describe("setup.test.js", function() {
 
   // restore the originals package.json
-  after(() => {
+  after(function() {
     fs.writeFileSync(paths.packagejson, originalPackageJSON, "utf8");
     fs.writeFileSync(paths.parentpackagejson, originalParentPackageJSON, "utf8");
   })

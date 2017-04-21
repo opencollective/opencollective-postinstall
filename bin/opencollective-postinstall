@@ -43,7 +43,7 @@ function init() {
   }
 
   Promise.all(promises)
-    .then(results => {
+    .then(function(results) {
       const stats = results[0];
       const logotxt = results[1];
 
@@ -52,7 +52,7 @@ function init() {
       }
       return printFooter(stats);
     })
-    .catch(e => {
+    .catch(function(e) {
       console.error("Error caught: ", e);
       printFooter();
     })
