@@ -125,7 +125,7 @@ const ProcessAnswers = function(answers) {
   } else {
     delete package.collective.logo;
   }
-  var postinstall = "opencollective-postinstall || exit 0";
+  var postinstall = "opencollectivepostinstall || exit 0";
   package.scripts = package.scripts || {};
   if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
     package.scripts.postinstall = package.scripts.postinstall + " && " + postinstall;

@@ -34,7 +34,7 @@ describe("setup.test.js", () => {
     const proc = execSync("cross-env OC_POSTINSTALL_TEST=true npm install --save-dev " + path.resolve(__dirname, "../"), { cwd: paths.package });
     const package = JSON.parse(fs.readFileSync(paths.packagejson, 'utf8'));
     expect(package.collective).to.exist;
-    expect(package.scripts.postinstall).to.equal("opencollective-postinstall || exit 0");
+    expect(package.scripts.postinstall).to.equal("opencollectivepostinstall || exit 0");
     expect(package.collective.type).to.equal("opencollective");
     expect(package.collective.url).to.equal("https://opencollective.com/testpackage");
     expect(package.collective.logo).to.equal("https://opencollective.com/opencollective/logo.txt");
