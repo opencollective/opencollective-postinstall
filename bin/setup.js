@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 const utils = require("../lib/utils");
-if (!utils.isDevEnvironment()) {
-  process.exit(0);
-}
-
 const debug = utils.debug;
 
+if (!utils.isDevEnvironment()) {
+  debug("Not in dev environment");
+  process.exit(0);
+}
 
 // In some CI environment, NODE_ENV might not be defined.
 // We exit if `inquirer` module is not installed
@@ -31,7 +31,7 @@ const fetchLogo = fetchData.fetchLogo;
 const fetchBanner = fetchData.fetchBanner;
 const printLogo = print.printLogo;
 
-const parentDir = process.cwd().split("/").slice(-2, -1)[0];
+const parentDir = process.cwd().split(process.platform === 'win32' ? "\\" : "/").slice(-2, -1)[0];
 if (parentDir !== "node_modules") {
   // No need to run the setup in standalone mode
   debug("Parent dir (" + parentDir + ") is not \"node_modules\", exiting");
