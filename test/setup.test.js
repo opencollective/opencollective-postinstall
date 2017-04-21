@@ -5,7 +5,6 @@ var fs = require('fs');
 
 const paths = {
   'package': path.resolve('test/package'),
-  'postinstallpackage': path.resolve('test/package/node_modules/opencollective-postinstall'),
   'packagejson': path.resolve('test/package/package.json'),
   'parentpackage': path.resolve('test/parentpackage'),
   'parentpackagejson': path.resolve('test/parentpackage/package.json'),
