@@ -7,6 +7,7 @@ install:
 test_script:
   - npm install
   - npm run test
+  - dir node_modules\.bin
 
 # Make clone much faster
 shallow_clone: true
@@ -16,5 +17,5 @@ build: off
 deploy: off
 
 # Cache node modules, and refresh if package.json changes
-cache:
-  - node_modules -> package.json
+#cache:
+#  - node_modules -> package.json
