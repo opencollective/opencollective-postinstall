@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test",
-    "setup": "node bin/setup.js"
+    "postinstall": "node bin/setup.js"
   },
   "bin": {
     "opencollective-postinstall": "./bin/opencollective-postinstall"
