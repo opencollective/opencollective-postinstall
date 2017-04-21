@@ -13,7 +13,7 @@ if(!utils.isFancyEnvironment()) {
   console.log("");
   console.log("     *** Thank you for using " + process.env.npm_package_name + "! ***");
   console.log("");
-  console.log("lease consider donating to our open collective");
+  console.log("Please consider donating to our open collective");
   console.log("     to help us maintain this package.");
   console.log("");
   console.log("  " + collective_url + "/donate");

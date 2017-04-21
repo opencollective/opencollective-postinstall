@@ -61,6 +61,13 @@ if (!package) {
 
 const askQuestions = function() {
 
+  if (process.env.OC_POSTINSTALL_TEST) {
+    return {
+      collectiveSlug: package.name,
+      logo: "https://opencollective.com/opencollective/logo.txt"
+    };
+  }
+
   const questions = [
     {
       type: "input",
@@ -118,7 +125,7 @@ const ProcessAnswers = function(answers) {
   } else {
     delete package.collective.logo;
   }
-  var postinstall = "node node_modules/.bin/opencollective-postinstall || exit";
+  var postinstall = "opencollective-postinstall || exit 0";
   package.scripts = package.scripts || {};
   if (package.scripts.postinstall && package.scripts.postinstall.indexOf(postinstall) === -1) {
     package.scripts.postinstall = package.scripts.postinstall + " && " + postinstall;
