@@ -8,7 +8,7 @@
     "url": "git+https://github.com/opencollective/opencollective-postinstall.git"
   },
   "scripts": {
-    "test": "mocha test",
+    "test": "node node_modules/.bin/mocha test",
     "postinstall": "node bin/setup.js"
   },
   "bin": {
