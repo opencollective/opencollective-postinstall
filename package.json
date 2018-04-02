@@ -1,40 +1,26 @@
 {
   "name": "opencollective-postinstall",
-  "version": "1.1.1",
-  "description": "Prompt users to donate after they install your node module with npm install",
+  "version": "2.0.0",
+  "description": "Lightweight npm postinstall message to invite people to donate to your collective",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/opencollective/opencollective-postinstall.git"
+    "url": "git+https://github.com/opencollective/npm-postinstall.git"
   },
-  "scripts": {
-    "test": "mocha test",
-    "postinstall": "node bin/setup.js"
-  },
-  "bin": {
-    "opencollective-postinstall": "./bin/opencollective-postinstall"
-  },
+  "bin": "index.js",
   "keywords": [
     "opencollective",
-    "donate",
     "donation",
-    "fundoss",
-    "npm"
+    "funding",
+    "sustain"
   ],
-  "author": "Xavier Damman <@xdamman>",
+  "author": "Xavier Damman (@xdamman)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/opencollective/node-module/issues"
+    "url": "https://github.com/opencollective/npm-postinstall/issues"
   },
-  "homepage": "https://github.com/opencollective/node-module#readme",
-  "dependencies": {
-    "chalk": "1.1.3",
-    "node-fetch": "1.6.3",
-    "inquirer": "^3.0.6"
-  },
-  "devDependencies": {
-    "chai": "3.5.0",
-    "cross-env": "^4.0.0",
-    "mocha": "3.2.0"
-  }
+  "homepage": "https://github.com/opencollective/npm-postinstall#readme"
 }
