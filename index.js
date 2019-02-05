@@ -1,5 +1,10 @@
 #!/usr/bin/env node
-var envDisable = Boolean(process.env.DISABLE_OPENCOLLECTIVE);
+
+function isTrue(value) {
+  return !!value && value !== "0" && value !== "false"
+}
+
+var envDisable = isTrue(process.env.DISABLE_OPENCOLLECTIVE) || isTrue(process.env.CI);
 var logLevel = process.env.npm_config_loglevel;
 var logLevelDisplay = ['silent', 'error', 'warn'].indexOf(logLevel) > -1;
 
