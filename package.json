@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/opencollective/opencollective-postinstall.git"
   },
+  "files": [
+    "index.js"
+  ],
   "bin": "index.js",
   "keywords": [
     "opencollective",
