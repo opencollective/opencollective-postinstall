@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/opencollective/opencollective-postinstall#readme",
   "devDependencies": {
-    "jest": "^26.0.1"
+    "jest": "^27.0.6"
   }
 }
